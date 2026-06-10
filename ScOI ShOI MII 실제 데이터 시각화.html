@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://chso0604.github.io/ScOI_ShOI_MII.html/ -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScOI ShOI MII 실제 데이터 시각화</title>
+<script src="./ScOI ShOI MII 실제 데이터 시각화_files/chart.umd.min.js.다운로드"></script>
+<script src="./ScOI ShOI MII 실제 데이터 시각화_files/monthly_movie_indices.js.다운로드"></script>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: transparent;
+    color: #1e293b;
+    font-family: "Inter", "Segoe UI", "Malgun Gothic", system-ui, sans-serif;
+  }
+  .screen-viz {
+    width: 100%;
+    max-width: 760px;
+    margin: 24px auto;
+    color: #1e293b;
+  }
+  .viz-tabs {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 0 0 10px;
+  }
+  .viz-tab {
+    flex: 1 0 auto;
+    border: 1px solid #dbe3ef;
+    border-radius: 999px;
+    background: #f8fafc;
+    color: #64748b;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 750;
+    line-height: 1;
+    padding: 9px 12px;
+    transition: background .16s ease, border-color .16s ease, color .16s ease;
+    white-space: nowrap;
+  }
+  .viz-tab:hover { background: #f1f5f9; }
+  .viz-tab.active {
+    background: #0f172a;
+    border-color: #0f172a;
+    color: #fff;
+  }
+  .viz-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 10px 26px rgba(15, 23, 42, .06);
+    overflow: hidden;
+  }
+  .viz-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 18px 10px;
+  }
+  .viz-kicker {
+    color: #ea580c;
+    font-size: 11px;
+    font-weight: 850;
+    letter-spacing: .02em;
+    margin-bottom: 4px;
+  }
+  .viz-title {
+    color: #0f172a;
+    font-size: 16px;
+    font-weight: 850;
+    line-height: 1.35;
+    margin: 0;
+  }
+  .viz-sub {
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.55;
+    margin-top: 5px;
+  }
+  .viz-pill {
+    align-items: center;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    border-radius: 999px;
+    color: #c2410c;
+    display: inline-flex;
+    flex: 0 0 auto;
+    font-size: 11px;
+    font-weight: 850;
+    gap: 5px;
+    padding: 6px 9px;
+  }
+  .viz-pill::before {
+    background: #f97316;
+    border-radius: 50%;
+    content: "";
+    display: inline-block;
+    height: 7px;
+    width: 7px;
+  }
+  .viz-body { padding: 4px 16px 16px; }
+  .chart-box {
+    position: relative;
+    height: 360px;
+    width: 100%;
+  }
+  .chart-box.short { height: 335px; }
+  .caption {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    color: #334155;
+    font-size: 12px;
+    line-height: 1.7;
+    margin-top: 12px;
+    padding: 11px 13px;
+  }
+  .caption b { color: #0f172a; }
+  .panel { display: none; }
+  .panel.active { display: block; animation: fadeIn .18s ease-out; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (max-width: 560px) {
+    .screen-viz { margin: 18px auto; }
+    .viz-tabs { padding-left: 2px; padding-right: 2px; }
+    .viz-tab { flex: 0 0 auto; }
+    .viz-head { display: block; padding: 15px 14px 8px; }
+    .viz-pill { margin-top: 9px; }
+    .viz-body { padding: 4px 12px 14px; }
+    .chart-box, .chart-box.short { height: 350px; }
+  }
+</style>
+</head>
+<body>
+<div class="screen-viz" id="metricViz">
+  <div class="viz-tabs" aria-label="지표 선택">
+    <button class="viz-tab active" type="button" data-panel="scoi">ScOI</button>
+    <button class="viz-tab" type="button" data-panel="shoi">ShOI</button>
+    <button class="viz-tab" type="button" data-panel="mii">MII</button>
+  </div>
+
+  <section class="panel active" id="scoi">
+    <article class="viz-card">
+      <div class="viz-head">
+        <div>
+          <div class="viz-kicker">MARCH 2026 DATA</div>
+          <h2 class="viz-title">2026년 3월, 스크린 배정은 수요를 반영했나</h2>
+          <p class="viz-sub">3월 실제 데이터만 비교했습니다. ScOI가 1을 넘으면 관객 비중보다 스크린 비중이 큽니다.</p>
+        </div>
+        <span class="viz-pill">1 기준선</span>
+      </div>
+      <div class="viz-body">
+        <div class="chart-box"><canvas id="scoiChart" width="1090" height="540" style="display: block; box-sizing: border-box; height: 360px; width: 726px;"></canvas></div>
+        <p class="caption"><b>ScOI</b>는 스크린 점유율 / 관객 점유율입니다. 막대 위에 마우스를 올리면 3월 스크린 점유율과 관객 점유율이 표시됩니다.</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="panel" id="shoi">
+    <article class="viz-card">
+      <div class="viz-head">
+        <div>
+          <div class="viz-kicker">MARCH 2026 DATA</div>
+          <h2 class="viz-title">2026년 3월, 상영 회차는 수요보다 앞섰나</h2>
+          <p class="viz-sub">3월 실제 데이터만 비교했습니다. ShOI가 1을 넘으면 관객 비중보다 상영 회차 비중이 큽니다.</p>
+        </div>
+        <span class="viz-pill">1 기준선</span>
+      </div>
+      <div class="viz-body">
+        <div class="chart-box"><canvas id="shoiChart" height="540" style="display: block; box-sizing: border-box; height: 360px; width: 726px;" width="1090"></canvas></div>
+        <p class="caption"><b>ShOI</b>는 상영 점유율 / 관객 점유율입니다. 툴팁에서 상영 점유율과 관객 점유율을 함께 확인할 수 있습니다.</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="panel" id="mii">
+    <article class="viz-card">
+      <div class="viz-head">
+        <div>
+          <div class="viz-kicker">JAN-MAY 2026 PEAK</div>
+          <h2 class="viz-title">2026년 1~5월, 스크린 배정은 얼마나 비효율적이었나</h2>
+          <p class="viz-sub">1~5월 중 각 영화의 MII가 가장 높았던 달을 비교했습니다. 값이 클수록 스크린 배정 대비 좌석 효율이 낮습니다.</p>
+        </div>
+        <span class="viz-pill">비효율</span>
+      </div>
+      <div class="viz-body">
+        <div class="chart-box short"><canvas id="miiChart" height="502" style="display: block; box-sizing: border-box; height: 335px; width: 726px;" width="1090"></canvas></div>
+        <p class="caption"><b>MII</b>는 스크린 점유율과 낮은 좌석 판매율이 함께 나타나는 정도를 보여줍니다. 이 그래프는 3월이 아니라 1~5월 각 영화의 최고 비효율 월을 기준으로 합니다.</p>
+      </div>
+    </article>
+  </section>
+</div>
+
+<script>
+const charts = {};
+const targetMonth = "2026-03";
+const caseMovies = [
+  "왕과 사는 남자",
+  "프로젝트 헤일메리",
+  "휴민트",
+  "메소드연기",
+  "호퍼스"
+];
+const miiMovies = [
+  "왕과 사는 남자",
+  "프로젝트 헤일메리",
+  "아바타: 불과 재",
+  "악마는 프라다를 입는다 2",
+  "휴민트",
+  "호퍼스"
+];
+const palette = {
+  slate900: "#0f172a",
+  slate700: "#334155",
+  slate500: "#64748b",
+  slate300: "#cbd5e1",
+  slate200: "#e2e8f0",
+  orange: "#ea580c",
+  rose: "#e11d48",
+  blue: "#2563eb",
+  emerald: "#10b981"
+};
+
+Chart.defaults.font.family = '"Inter", "Segoe UI", "Malgun Gothic", system-ui, sans-serif';
+Chart.defaults.color = palette.slate500;
+
+function fmt(n, digits = 1) {
+  if (n === null || n === undefined || Number.isNaN(Number(n))) return "-";
+  return Number(n).toLocaleString("ko-KR", { maximumFractionDigits: digits });
+}
+
+function monthLabel(month) {
+  return `${Number(month.slice(5, 7))}월`;
+}
+
+function metricRows(movieNames, metric) {
+  return movieNames.map(movie => {
+    return monthlyMovieIndices.find(d =>
+      d.movieNm === movie &&
+      d.month === targetMonth &&
+      !Number.isNaN(Number(d[metric]))
+    );
+  }).filter(Boolean).sort((a, b) => Number(a[metric]) - Number(b[metric]));
+}
+
+function peakRows(movieNames, metric) {
+  return movieNames.map(movie => {
+    const rows = monthlyMovieIndices
+      .filter(d => d.movieNm === movie)
+      .filter(d => d.month >= "2026-01" && d.month <= "2026-05")
+      .filter(d => !Number.isNaN(Number(d[metric])));
+    return rows.reduce((best, row) => Number(row[metric]) > Number(best[metric]) ? row : best, rows[0]);
+  }).filter(Boolean).sort((a, b) => Number(a[metric]) - Number(b[metric]));
+}
+
+function destroyChart(id) {
+  if (charts[id]) {
+    charts[id].destroy();
+    delete charts[id];
+  }
+}
+
+function makeChart(id, config) {
+  destroyChart(id);
+  charts[id] = new Chart(document.getElementById(id), config);
+}
+
+function commonGrid() {
+  return {
+    color: palette.slate200,
+    borderDash: [3, 3],
+    drawBorder: false
+  };
+}
+
+function shortMovie(name) {
+  return name.length > 10 ? `${name.slice(0, 10)}...` : name;
+}
+
+function ratioColor(value) {
+  if (value < 1) return palette.emerald;
+  if (value >= 3) return palette.rose;
+  return palette.orange;
+}
+
+function thresholdPlugin(label, value, color = palette.rose) {
+  return {
+    id: `threshold-${label}`,
+    afterDraw(chart) {
+      const xScale = chart.scales.x;
+      const yScale = chart.scales.y;
+      if (!xScale || !yScale) return;
+      const ctx = chart.ctx;
+      const x = xScale.getPixelForValue(value);
+      ctx.save();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1.4;
+      ctx.setLineDash([5, 5]);
+      ctx.beginPath();
+      ctx.moveTo(x, yScale.top - 4);
+      ctx.lineTo(x, yScale.bottom + 2);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = color;
+      ctx.font = "700 11px Inter, Malgun Gothic, sans-serif";
+      ctx.fillText(label, x + 6, yScale.top + 9);
+      ctx.restore();
+    }
+  };
+}
+
+function renderRatioChart(id, rows, metric, label, maxValue) {
+  makeChart(id, {
+    type: "bar",
+    data: {
+      labels: rows.map(d => shortMovie(d.movieNm)),
+      datasets: [{
+        label,
+        data: rows.map(d => Number(d[metric])),
+        backgroundColor: rows.map(d => ratioColor(Number(d[metric]))),
+        borderRadius: 7,
+        borderSkipped: false,
+        customRows: rows
+      }]
+    },
+    options: {
+      indexAxis: "y",
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: "rgba(15, 23, 42, .92)",
+          padding: 10,
+          callbacks: {
+            title: items => rows[items[0].dataIndex].movieNm,
+            label: ctx => `${label}: ${fmt(ctx.raw, 2)}`,
+            afterLabel: ctx => {
+              const row = rows[ctx.dataIndex];
+              return [
+                `월: ${monthLabel(row.month)}`,
+                `스크린 점유율: ${fmt(row.SS_screen_share_pct, 1)}%`,
+                `상영 점유율: ${fmt(row.show_share_pct, 1)}%`,
+                `관객 점유율: ${fmt(row.audience_share_pct, 1)}%`
+              ];
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          suggestedMax: maxValue,
+          grid: commonGrid(),
+          ticks: { font: { size: 10 } }
+        },
+        y: {
+          grid: { display: false },
+          ticks: { color: palette.slate700, font: { size: 11, weight: "750" } }
+        }
+      }
+    },
+    plugins: [thresholdPlugin("1 = 수요와 공급 균형", 1)]
+  });
+}
+
+function renderMiiChart(rows) {
+  makeChart("miiChart", {
+    type: "bar",
+    data: {
+      labels: rows.map(d => shortMovie(d.movieNm)),
+      datasets: [{
+        label: "MII",
+        data: rows.map(d => Number(d.MII_pct)),
+        backgroundColor: rows.map((d, idx) => idx === rows.length - 1 ? palette.rose : palette.slate300),
+        borderRadius: 7,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      indexAxis: "y",
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: "rgba(15, 23, 42, .92)",
+          padding: 10,
+          callbacks: {
+            title: items => rows[items[0].dataIndex].movieNm,
+            label: ctx => `MII: ${fmt(ctx.raw, 1)}%`,
+            afterLabel: ctx => {
+              const row = rows[ctx.dataIndex];
+              return [
+                `월: ${monthLabel(row.month)}`,
+                `스크린 점유율: ${fmt(row.SS_screen_share_pct, 1)}%`,
+                `좌석판매율: ${fmt(row.seat_sales_rate_pct, 1)}%`,
+                `관객 점유율: ${fmt(row.audience_share_pct, 1)}%`
+              ];
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          suggestedMax: 32,
+          grid: commonGrid(),
+          ticks: { callback: v => `${v}%`, font: { size: 10 } }
+        },
+        y: {
+          grid: { display: false },
+          ticks: { color: palette.slate700, font: { size: 11, weight: "750" } }
+        }
+      }
+    }
+  });
+}
+
+function bindTabs() {
+  document.querySelectorAll(".viz-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      const panelId = tab.dataset.panel;
+      document.querySelectorAll(".viz-tab").forEach(item => item.classList.toggle("active", item === tab));
+      document.querySelectorAll(".panel").forEach(panel => panel.classList.toggle("active", panel.id === panelId));
+      if (panelId === "scoi" && charts.scoiChart) charts.scoiChart.resize();
+      if (panelId === "shoi" && charts.shoiChart) charts.shoiChart.resize();
+      if (panelId === "mii" && charts.miiChart) charts.miiChart.resize();
+    });
+  });
+}
+
+const scoiRows = metricRows(caseMovies, "ScOI_screen_overallocation");
+const shoiRows = metricRows(caseMovies, "ShOI_show_overallocation");
+const miiRows = peakRows(miiMovies, "MII_pct");
+
+bindTabs();
+renderRatioChart("scoiChart", scoiRows, "ScOI_screen_overallocation", "ScOI", 6.5);
+renderRatioChart("shoiChart", shoiRows, "ShOI_show_overallocation", "ShOI", 3.2);
+renderMiiChart(miiRows);
+</script>
+
+
+</body></html>

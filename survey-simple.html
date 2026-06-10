@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>스크린 독과점 설문 응답 결과</title>
+  <link rel="stylesheet" href="./survey-simple.css">
+</head>
+<body>
+  <main class="survey-chart" aria-labelledby="survey-title">
+    <h1 id="survey-title">스크린 독과점에 대한 관객 인식</h1>
+    <p class="note">영화관 관람 경험 및 영화 선택에 관한 설문 조사, 문항별 응답 71명</p>
+
+    <nav class="question-tabs" aria-label="설문 문항 목차">
+      <button class="question-tab active" type="button" data-target="question-0" aria-controls="question-0" aria-selected="true">상영관 집중 체감</button>
+      <button class="question-tab" type="button" data-target="question-1" aria-controls="question-1" aria-selected="false">용어 인지</button>
+      <button class="question-tab" type="button" data-target="question-2" aria-controls="question-2" aria-selected="false">규제 필요성</button>
+    </nav>
+
+    <div id="chart-list" class="chart-list"></div>
+  </main>
+
+  <div class="tooltip" id="tooltip" role="status" aria-hidden="true"></div>
+  <script src="./survey-simple.js"></script>
+</body>
+</html>

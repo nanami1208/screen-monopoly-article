@@ -15,8 +15,44 @@ body {
   padding: 28px 18px;
 }
 
+.chart-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 22px;
+  border-bottom: 1px solid #ddd;
+}
+
+.chart-tab {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  color: #555;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.chart-tab:hover,
+.chart-tab:focus-visible {
+  color: #222;
+  outline: none;
+}
+
+.chart-tab.active {
+  border-bottom-color: #12851d;
+  color: #222;
+}
+
 .chart-block {
   margin: 0 0 48px;
+}
+
+.chart-block[hidden] {
+  display: none;
 }
 
 .chart-block:last-child {
@@ -133,6 +169,16 @@ h2 {
 
   h2 {
     font-size: 15px;
+  }
+
+  .chart-tabs {
+    gap: 4px;
+  }
+
+  .chart-tab {
+    flex: 1 1 auto;
+    padding: 0 8px;
+    font-size: 13px;
   }
 }
 
