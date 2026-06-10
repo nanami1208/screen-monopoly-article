@@ -1,0 +1,138 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: #222;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, sans-serif;
+}
+
+.chart-page {
+  width: min(860px, 100%);
+  margin: 0 auto;
+  padding: 28px 18px;
+}
+
+.chart-block {
+  margin: 0 0 48px;
+}
+
+.chart-block:last-child {
+  margin-bottom: 0;
+}
+
+h2 {
+  margin: 0 0 10px;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.axis {
+  stroke: #555;
+  stroke-width: 1;
+}
+
+.grid {
+  stroke: #e6e6e6;
+  stroke-width: 1;
+}
+
+.tick,
+.axis-label,
+.legend,
+.value-label {
+  fill: #555;
+  font-size: 12px;
+}
+
+.axis-label {
+  font-size: 13px;
+  font-style: italic;
+}
+
+.line {
+  fill: none;
+  stroke: #12851d;
+  stroke-width: 3;
+}
+
+.area {
+  fill: rgba(18, 133, 29, 0.09);
+}
+
+.point {
+  fill: #12851d;
+  stroke: #fff;
+  stroke-width: 2;
+  cursor: pointer;
+}
+
+.bar {
+  fill: #8b168f;
+  cursor: pointer;
+}
+
+.bar.alt {
+  fill: #1268a8;
+}
+
+.bar:hover,
+.point:hover {
+  opacity: 0.78;
+}
+
+.threshold {
+  stroke: #c43b2f;
+  stroke-width: 1.5;
+  stroke-dasharray: 5 5;
+}
+
+.threshold-label {
+  fill: #c43b2f;
+  font-size: 12px;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 10;
+  max-width: 240px;
+  padding: 8px 10px;
+  border: 1px solid #cfcfcf;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  color: #222;
+  font-size: 13px;
+  line-height: 1.45;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.tooltip.visible {
+  opacity: 1;
+}
+
+@media (max-width: 640px) {
+  .chart-page {
+    padding: 22px 12px;
+  }
+
+  .chart-block {
+    margin-bottom: 36px;
+  }
+
+  h2 {
+    font-size: 15px;
+  }
+}
+

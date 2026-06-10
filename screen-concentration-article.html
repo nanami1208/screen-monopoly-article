@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>스크린 독과점 시각화</title>
+  <link rel="stylesheet" href="./screen-concentration-article.css">
+</head>
+<body>
+  <main class="chart-page">
+    <section class="chart-block">
+      <h2>연도별 단일 영화 30% 이상 스크린 점유일</h2>
+      <svg id="year-chart" class="chart" viewBox="0 0 760 420" role="img" aria-label="연도별 단일 영화 30% 이상 스크린 점유일"></svg>
+    </section>
+
+    <section class="chart-block">
+      <h2>30% 이상 스크린 점유가 오래 지속된 영화</h2>
+      <svg id="movie-chart" class="chart" viewBox="0 0 760 360" role="img" aria-label="30% 이상 스크린 점유 지속일 상위 영화"></svg>
+    </section>
+
+    <section class="chart-block">
+      <h2>2026년 3월 시장 집중도</h2>
+      <svg id="march-chart" class="chart" viewBox="0 0 760 360" role="img" aria-label="2026년 3월 시장 집중도"></svg>
+    </section>
+  </main>
+
+  <div id="tooltip" class="tooltip" role="status" aria-hidden="true"></div>
+  <script src="./screen-concentration-article.js"></script>
+</body>
+</html>
+
