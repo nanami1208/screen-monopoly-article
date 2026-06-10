@@ -169,3 +169,4 @@ renderMarchChart();
 chartTabs.forEach((tab) => {
   tab.addEventListener("click", () => showPanel(tab.dataset.target));
 });
+
